@@ -47,7 +47,6 @@ public class PeriodService : IPeriodService
             x.FirstEmployeeId == winnerPair.FirstEmployeeId &&
             x.SecondEmployeeId == winnerPair.SecondEmployeeId);
 
-        bestResult.ProjectId = winnerPair.ProjectId;
         bestResult.FirstEmployeeId = winnerPair.FirstEmployeeId;
         bestResult.SecondEmployeeId = winnerPair.SecondEmployeeId;
         bestResult.TotalDays = bestResult.CommonProjects.Sum(x => x.TotalDays);
