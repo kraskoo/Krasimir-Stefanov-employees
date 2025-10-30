@@ -9,7 +9,7 @@ public class ResultPair
     public IEnumerable<ResultPair> CommonProjects { get; set; } = [];
 
     public override int GetHashCode() =>
-        HashCode.Combine(ProjectId, FirstEmployeeId + SecondEmployeeId);
+        HashCode.Combine(ProjectId, (FirstEmployeeId, SecondEmployeeId), (SecondEmployeeId, FirstEmployeeId));
 
     public override bool Equals(object? obj) =>
         obj is ResultPair other &&

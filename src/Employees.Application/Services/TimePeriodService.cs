@@ -7,8 +7,8 @@ public class TimePeriodService : ITimePeriodService
 {
     public ResultPair GetLongestTimePeriod(IEnumerable<ProjectBindingModel> projects)
     {
-        Dictionary<int, SortedSet<ResultPair>> commonProjects = [];
-        Dictionary<int, int> workedDaysTogether = [];
+        Dictionary<(int, int), SortedSet<ResultPair>> commonProjects = [];
+        Dictionary<(int, int), int> workedDaysTogether = [];
         var employeeProjects = projects.GroupBy(p => p.ProjectID)
             .ToDictionary(g => g.Key, g => g.OrderBy(x => x.EmpID).ToList());
         foreach (var employeeProject in employeeProjects)
@@ -28,7 +28,7 @@ public class TimePeriodService : ITimePeriodService
                         continue;
                     }
 
-                    var key = firstEmployee.EmpID + secondEmployee.EmpID;
+                    var key = (firstEmployee.EmpID, secondEmployee.EmpID);
                     if (!commonProjects.ContainsKey(key))
                     {
                         commonProjects[key] = new SortedSet<ResultPair>(new ResultPairTotalDaysComparer());
