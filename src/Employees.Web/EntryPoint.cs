@@ -3,7 +3,7 @@ using Employees.Application.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<ICsvParser, CsvParser>();
-builder.Services.AddSingleton<IPeriodService, PeriodService>();
+builder.Services.AddSingleton<ITimePeriodService, TimePeriodService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -6,7 +6,7 @@ using Employees.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-public class HomeController(ICsvParser csvParser, IPeriodService periodService) : Controller
+public class HomeController(ICsvParser csvParser, ITimePeriodService periodService) : Controller
 {
     public IActionResult Index() => View(new ResultPair());
 

@@ -2,7 +2,7 @@
 
 using Employees.Application.Models;
 
-public interface IPeriodService
+public interface ITimePeriodService
 {
     ResultPair GetLongestTimePeriod(IEnumerable<ProjectBindingModel> projects);
 }

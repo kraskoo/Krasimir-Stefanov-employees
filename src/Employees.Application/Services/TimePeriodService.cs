@@ -3,7 +3,7 @@
 using Employees.Application.Comparers;
 using Employees.Application.Models;
 
-public class PeriodService : IPeriodService
+public class TimePeriodService : ITimePeriodService
 {
     public ResultPair GetLongestTimePeriod(IEnumerable<ProjectBindingModel> projects)
     {

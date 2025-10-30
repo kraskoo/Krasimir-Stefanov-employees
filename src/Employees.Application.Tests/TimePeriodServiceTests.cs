@@ -3,9 +3,9 @@
 using Employees.Application.Models;
 using Employees.Application.Services;
 
-public class PeriodServiceTests
+public class TimePeriodServiceTests
 {
-    private readonly PeriodService _service = new();
+    private readonly TimePeriodService _service = new();
 
     [Fact]
     public void GetLongestTimePeriod_WithSingleOverlap_ShouldReturnCorrectPair()
