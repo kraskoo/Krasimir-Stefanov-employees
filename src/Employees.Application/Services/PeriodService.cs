@@ -7,9 +7,8 @@ public class PeriodService : IPeriodService
 {
     public ResultPair GetLongestTimePeriod(IEnumerable<ProjectBindingModel> projects)
     {
-        SortedDictionary<int, SortedSet<ResultPair>> commonProjects = [];
-        SortedDictionary<int, int> workedDaysTogether = [];
-        var bestResult = new ResultPair { TotalDays = 0 };
+        Dictionary<int, SortedSet<ResultPair>> commonProjects = [];
+        Dictionary<int, int> workedDaysTogether = [];
         var employeeProjects = projects.GroupBy(p => p.ProjectID)
             .ToDictionary(g => g.Key, g => g.OrderBy(x => x.EmpID).ToList());
         foreach (var employeeProject in employeeProjects)
@@ -48,22 +47,25 @@ public class PeriodService : IPeriodService
             }
         }
 
-        var keys = workedDaysTogether.OrderByDescending(x => x.Value);
-        if (!keys.Any())
+        var topWorkedDaysTogether = workedDaysTogether.OrderByDescending(x => x.Value);
+        if (!topWorkedDaysTogether.Any())
         {
             return new();
         }
 
-        var winnerKey = keys.FirstOrDefault().Key;
+        var winnerKey = topWorkedDaysTogether.FirstOrDefault().Key;
         var winnerPair = commonProjects[winnerKey];
         var firstProject = winnerPair.FirstOrDefault()!;
 
-        bestResult.CommonProjects = winnerPair;
+        var bestResultPair = new ResultPair
+        {
+            CommonProjects = winnerPair,
+            FirstEmployeeId = firstProject.FirstEmployeeId,
+            SecondEmployeeId = firstProject.SecondEmployeeId
+        };
+        bestResultPair.TotalDays = bestResultPair.CommonProjects.Sum(x => x.TotalDays);
 
-        bestResult.FirstEmployeeId = firstProject.FirstEmployeeId;
-        bestResult.SecondEmployeeId = firstProject.SecondEmployeeId;
-        bestResult.TotalDays = bestResult.CommonProjects.Sum(x => x.TotalDays);
-        return bestResult;
+        return bestResultPair;
     }
 
     private static int GetOverlapDays(
