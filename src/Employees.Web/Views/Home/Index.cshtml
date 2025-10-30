@@ -1,0 +1,54 @@
+﻿@model ResultPair;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (Model.TotalDays > 0)
+{
+    <h2>Longest Working Pair with IDs (@Model.FirstEmployeeId and @Model.SecondEmployeeId) has @Model.TotalDays working days together</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Employee ID #1</th>
+                <th>Employee ID #2</th>
+                <th>Project ID</th>
+                <th>Days Worked</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in Model.CommonProjects)
+            {
+                <tr>
+                    <td>@project.FirstEmployeeId</td>
+                    <td>@project.SecondEmployeeId</td>
+                    <td>@project.ProjectId</td>
+                    <td>@project.TotalDays</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h4 class="pb-5">You have no selected csv file for parsing or there are no common projects found between employees.</h4>
+    <div class="d-flex justify-content-center bd-highlight mb-3">
+        <form asp-action="Upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="csvFile" class="custom-file-upload">Select CSV File:</label>
+                <input type="file" id="csvFile" name="csvFile" accept=".csv" class="btn btn-primary" />
+            </div>
+            <button type="submit" class="btn btn-primary">Process File</button>
+        </form>
+    </div>
+}
+
+@if (ViewContext.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewContext.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
